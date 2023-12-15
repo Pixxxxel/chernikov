@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>Register</title>
+        <link rel="stylesheet" type="text/css" th:href="@{/css/materialize.min.css}" />
+        <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}" />
+        <script th:src="@{/js/jquery.min.js}"></script>
+        <script th:src="@{/js/materialize.min.js}"></script>
+    </head>
+    <body>
+        <h2 class="center">Register</h2>
+
+        <p th:if="${error}" th:text="${error}" style="color: red;"></p>
+
+        <form action="/register" method="post">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+
+            <br>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+
+            <br>
+
+            <label for="repeat_password">Password:</label>
+            <input type="password" id="repeat_password" name="repeat_password" required>
+
+            <br>
+
+            <button class="center btn" type="submit">Login</button>
+        </form>
+    </body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit task</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/materialize.min.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}" />
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/js/materialize.min.js}"></script>
+    <script th:src="@{/js/edit_task.js}"></script>
+</head>
+<body>
+<nav>
+    <div class="nav-wrapper">
+        <a href="#" class="brand-logo right"></a>
+        <ul id="nav-mobile" class="left">
+            <li>
+                <span>Current user is: </span>
+                <span th:text="${userName}"></span>
+            </li>
+            <li>
+                <a href="/logout">Log out</a>
+            </li>
+            <li>
+                <a href="/">Back to tasks</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+    <div>
+        <div>
+            <div class="card">
+                <div class="card-content">
+                    <form id="editTaskForm">
+                        <div class="input-field">
+                            <input id="header" type="text" class="validate" th:value="${task.getHeader()}">
+                            <label for="header">Task Header</label>
+                        </div>
+                        <div class="input-field">
+                            <textarea id="description" class="materialize-textarea" th:text="${task.getDescription()}"></textarea>
+                            <label for="description">Task Description</label>
+                        </div>
+                        <div class="input-field">
+                            <select id="status">
+                                <option value="BACKLOG" th:selected="${task.getStatus().name() == 'BACKLOG'}">BACKLOG</option>
+                                <option value="IN_PROGRESS" th:selected="${task.getStatus().name() == 'IN_PROGRESS'}">IN PROGRESS</option>
+                                <option value="ON_REVIEW" th:selected="${task.getStatus().name() == 'ON_REVIEW'}">REVIEW</option>
+                                <option value="TESTING" th:selected="${task.getStatus().name() == 'TESTING'}">TESTING</option>
+                                <option value="PAUSED" th:selected="${task.getStatus().name() == 'PAUSED'}">PAUSED</option>
+                                <option value="DONE" th:selected="${task.getStatus().name() == 'DONE'}">DONE</option>
+                                <option value="CANCELLED" th:selected="${task.getStatus().name() == 'CANCELLED'}">CANCELLED</option>
+                            </select>
+                            <label>Status</label>
+                        </div>
+                        <div class="input-field">
+                            <input type="number" id="assign_to" th:value="${task.getAssignTo().getId()}">
+                            <label for="assign_to">Assigned To User ID</label>
+                        </div>
+                        <div class="input-field">
+                            <input type="date" id="deadline" th:value="${#temporals.format(task.getDeadline(), 'yyyy-MM-dd')}">
+                            <label for="deadline">Deadline</label>
+                        </div>
+
+                        <input type="hidden" id="taskId" th:value="${task.getId()}">
+
+                        <button class="btn waves-effect waves-light" type="button" onclick="updateTask()">Save Changes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

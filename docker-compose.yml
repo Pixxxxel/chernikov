@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+  java:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    tty: true
+    container_name: backend_14
+    restart: no
+    links:
+      - mysql
+    networks:
+      - lab
+    ports:
+      - '8080:8080'
+    volumes:
+      - './:/app'
+  mysql:
+    image: mysql:8.2
+    volumes:
+      - database:/var/lib/mysql
+      - ./config/mysql/:/etc/mysql/mysql.conf.d/
+    ports:
+      - '3306:3306'
+    networks:
+      - lab
+    environment:
+      - MYSQL_DATABASE=files
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+  memcached:
+    image: memcached:latest
+    container_name: memcached
+    networks:
+      - lab
+    restart: unless-stopped
+    tty: true
+
+networks:
+  lab:
+    driver: bridge
+
+volumes:
+  database: { }

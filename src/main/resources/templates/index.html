@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Task list</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/materialize.min.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}" />
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/js/materialize.min.js}"></script>
+    <script th:src="@{/js/task_list.js}"></script>
+</head>
+<body>
+<nav>
+    <div class="nav-wrapper">
+        <a href="#" class="brand-logo right"></a>
+        <ul id="nav-mobile" class="left">
+            <li>
+                <span>Current user is: </span>
+                <span th:text="${userName}"></span>
+            </li>
+            <li>
+                <a href="/logout">Log out</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div class="card center" id="upload-error" style="display: none">
+    <div style="padding: 20px">
+        <div>Task list getting error.</div>
+        <br>
+        <div class="btn btn-large center" onclick="window.location.reload()">Reload</div>
+    </div>
+</div>
+<div class="card center" id="no-tasks" style="display: none">
+    <div style="padding: 20px">
+        <div>Task list are empty</div>
+        <br>
+        <div class="btn btn-large center" onclick="openAddTaskWindow()">Add file</div>
+    </div>
+</div>
+<div id="upload-modal" class="modal bottom-sheet">
+    <div class="modal-content">
+        <h6>Create task</h6>
+        <div>
+            <input type="text" id="title" required>
+            <label for="title">Title:</label>
+
+            <textarea type="text" id="description" required></textarea>
+            <label for="description">Description:</label>
+
+            <input type="number" th:value="${userId}" id="assign_to" required>
+            <label for="assign_to">Assign to (user ID):</label>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a style="cursor: pointer" class="modal-close waves-effect waves-green btn-flat">Cancel</a>
+        <a style="cursor: pointer" onclick="createTask(this)" id="createTask" class="waves-effect waves-green btn-flat">Create</a>
+    </div>
+</div>
+<div class="card center" id="tasksDiv" style="display: none">
+    <table class="centered striped">
+        <thead>
+        <tr>
+            <th>Task ID</th>
+            <th>Task Title</th>
+            <th>Task Owner</th>
+            <th>Assigned to</th>
+            <th>Status</th>
+            <th>Created</th>
+            <th>Deadline</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody id="tasksList">
+        </tbody>
+    </table>
+</div>
+<div>
+    <div id="loading" class="center">
+        <div class="preloader-wrapper big active">
+            <div class="spinner-layer spinner-blue">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div><div class="gap-patch">
+                <div class="circle"></div>
+            </div><div class="circle-clipper right">
+                <div class="circle"></div>
+            </div>
+            </div>
+
+            <div class="spinner-layer spinner-red">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div><div class="gap-patch">
+                <div class="circle"></div>
+            </div><div class="circle-clipper right">
+                <div class="circle"></div>
+            </div>
+            </div>
+
+            <div class="spinner-layer spinner-yellow">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div><div class="gap-patch">
+                <div class="circle"></div>
+            </div><div class="circle-clipper right">
+                <div class="circle"></div>
+            </div>
+            </div>
+
+            <div class="spinner-layer spinner-green">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div><div class="gap-patch">
+                <div class="circle"></div>
+            </div><div class="circle-clipper right">
+                <div class="circle"></div>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="fixed-action-btn">
+    <a onclick="openAddTaskWindow()" class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">add</i></a>
+</div>
+</body>
+</html>

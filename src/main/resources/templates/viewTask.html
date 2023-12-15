@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>View task</title>
+        <link rel="stylesheet" type="text/css" th:href="@{/css/materialize.min.css}" />
+        <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}" />
+        <script th:src="@{/js/jquery.min.js}"></script>
+        <script th:src="@{/js/materialize.min.js}"></script>
+    </head>
+    <body>
+        <nav>
+            <div class="nav-wrapper">
+                <a href="#" class="brand-logo right"></a>
+                <ul id="nav-mobile" class="left">
+                    <li>
+                        <span>Current user is: </span>
+                        <span th:text="${userName}"></span>
+                    </li>
+                    <li>
+                        <a href="/logout">Log out</a>
+                    </li>
+                    <li>
+                        <a href="/">Back to tasks</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </body>
+    <div>
+        <div class="card">
+            <div class="card-content">
+                <span class="card-title" th:text="${task.getHeader()}"></span>
+                <br>
+                <p>Status: <span th:text="${task.getStatus()}"></span></p>
+                <p>Created: <span th:text="${task.getCreated()}"></span></p>
+                <p>Deadline: <span th:text="${task.getDeadline()}"></span></p>
+                <br>
+                <p>Task author: <span th:text="${task.getOwner().getUserName()}"></span></p>
+                <p>Assigned to: <span th:text="${task.getAssignTo().getUserName()}"></span></p>
+                <br>
+                <div>
+                    <div>
+                        <b>TASK DESCRIPTION:</b>
+                    </div>
+                    <div>
+                        <p style="word-break: break-word" th:text="${task.getDescription()}"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</html>

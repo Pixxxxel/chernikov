@@ -1,0 +1,71 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.2.0'
+    id 'io.spring.dependency-management' version '1.1.4'
+}
+
+group = 'com.makarov'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    sourceCompatibility = '21'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.session:spring-session-jdbc'
+    implementation 'org.flywaydb:flyway-core:9.16.3'
+    implementation 'org.flywaydb:flyway-mysql:9.16.3'
+    runtimeOnly 'com.mysql:mysql-connector-j'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+}
+
+springBoot {
+    mainClass = 'com.makarov.laba3_v14.Application'
+}
+
+def dbUrl = 'jdbc:mysql://mysql:3306/tasks?useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8&createDatabaseIfNotExist=true'
+def dbUser = 'root'
+def dbPassword = System.getenv('DATABASE_PASSWORD')
+
+tasks.named('test') {
+    useJUnitPlatform()
+
+    systemProperty 'spring.datasource.url', dbUrl
+    systemProperty 'spring.datasource.username', dbUser
+    systemProperty 'spring.datasource.password', dbPassword
+}
+
+bootRun {
+    systemProperties = [
+            'spring.datasource.driver-class-name': 'com.mysql.cj.jdbc.Driver',
+            'spring.jpa.properties.hibernate.dialect': 'org.hibernate.dialect.MySQLDialect',
+            'jakarta.persistence.schema-generation.database.action': 'drop-and-create',
+            'spring.jpa.hibernate.ddl-auto': 'update',
+            'spring.jpa.show-sql': true,
+            'spring.datasource.url': dbUrl,
+            'spring.datasource.username': dbUser,
+            'spring.datasource.password': dbPassword,
+            'spring.mvc.view.prefix': '/templates',
+            'spring.mvc.view.suffix': '.html',
+            'spring.servlet.multipart.max-file-size': '4GB',
+            'spring.servlet.multipart.max-request-size': '4GB',
+            'spring.session.store-type': 'jdbc',
+            'spring.session.jdbc.initialize-schema': 'always',
+            'spring.session.jdbc.table-name': 'SPRING_SESSION',
+            'spring.flyway.user': dbUser,
+            'spring.flyway.password': dbPassword,
+            'spring.flyway.locations': 'classpath:db/migration',
+            'spring.flyway.enabled': true
+    ]
+}
